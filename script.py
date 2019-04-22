@@ -2,29 +2,29 @@ import hashlib
 import itertools
 import time
 
-a_z = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+a_z = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
 counter = 0;
 solved_words = 0;
 listOfWords = list()
 with open("hashes.txt",'r') as file:
 	for line in file:
+		line = line.replace("\n", "")
 		listOfWords.append(line)
 #Start the actual script
 
-while solved_words != len(listOfWords):
+while counter < 4:
 	start = time.time()
-	guesses = itertools.permutations(a_z,counter)
+	guesses = itertools.permutations(a_z*counter,counter)
 	for guess in list(guesses):
-		print(''.join(guess))
-		result =  hashlib.md5(''.join(guess))
 		for word in listOfWords:
+			result =  hashlib.md5(''.join(guess))
 			if result.hexdigest() == word:
 				end = time.time()
-				listOfWords.remove(word)
 				print(''.join(guess))
 				print("MD5 Hash: " )
 				print(result.hexdigest())
 				print(end-start)	
+				listOfWords.remove(word)
 	counter = counter + 1
 
 
